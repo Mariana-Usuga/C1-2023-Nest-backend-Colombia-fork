@@ -66,7 +66,8 @@ export class DepositRepository
     dateEnd: number | Date,
   ): DepositEntity[] {
     const deposits = this.database.filter(
-      (item) => item.dateTime >= dateInit && item.dateTime <= dateEnd,
+      (item: DepositEntity) =>
+        dateInit >= item.dateTime && dateEnd <= item.dateTime,
     );
     return deposits;
   }

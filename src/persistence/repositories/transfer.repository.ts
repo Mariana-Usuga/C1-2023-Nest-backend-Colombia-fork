@@ -54,32 +54,32 @@ export class TransferRepository
     else throw new NotFoundException(`El ID ${id} no existe en base de datos`);
   }
 
-  findIncomeByDataRange(
-    accountId: string,
-    dateInit: number | Date,
-    dateEnd: number | Date,
-  ): TransferEntity[] {
-    const accounts = this.database.filter(
-      (item) =>
-        item.dateTime >= dateInit &&
-        item.dateTime <= dateEnd &&
-        item.id === accountId,
-    );
-    return accounts;
-  }
-
   findOutcomeByDataRange(
     accountId: string,
     dateInit: number | Date,
     dateEnd: number | Date,
   ): TransferEntity[] {
-    const accounts = this.database.filter(
-      (item) =>
-        item.dateTime >= dateInit &&
-        item.dateTime <= dateEnd &&
-        item.id === accountId,
+    const transfers = this.database.filter(
+      (item: TransferEntity) =>
+        dateInit >= item.dateTime &&
+        dateEnd <= item.dateTime &&
+        item.income.id === accountId,
     );
-    return accounts;
+    return transfers;
+  }
+
+  findIncomeByDataRange(
+    accountId: string,
+    dateInit: number | Date,
+    dateEnd: number | Date,
+  ): TransferEntity[] {
+    const transfers = this.database.filter(
+      (item: TransferEntity) =>
+        dateInit >= item.dateTime &&
+        dateEnd <= item.dateTime &&
+        item.income.id === accountId,
+    );
+    return transfers;
   }
 
   private hardDelete(index: number): void {

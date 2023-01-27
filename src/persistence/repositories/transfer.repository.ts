@@ -38,7 +38,7 @@ export class TransferRepository
       const index = this.database.findIndex(
         (item) => item.id === id && (item.deletedAt ?? true) === true,
       );
-      this.database.splice(index, 1);
+      this.hardDelete(index);
     }
   }
 
@@ -54,19 +54,32 @@ export class TransferRepository
     else throw new NotFoundException(`El ID ${id} no existe en base de datos`);
   }
 
-  findOutcomeByDataRange(
-    accountId: string,
-    dateInit: number | Date,
-    dateEnd: number | Date,
-  ): TransferEntity[] {
-    throw new Error('Method not implemented.');
-  }
   findIncomeByDataRange(
     accountId: string,
     dateInit: number | Date,
     dateEnd: number | Date,
   ): TransferEntity[] {
-    throw new Error('Method not implemented.');
+    const accounts = this.database.filter(
+      (item) =>
+        item.dateTime >= dateInit &&
+        item.dateTime <= dateEnd &&
+        item.id === accountId,
+    );
+    return accounts;
+  }
+
+  findOutcomeByDataRange(
+    accountId: string,
+    dateInit: number | Date,
+    dateEnd: number | Date,
+  ): TransferEntity[] {
+    const accounts = this.database.filter(
+      (item) =>
+        item.dateTime >= dateInit &&
+        item.dateTime <= dateEnd &&
+        item.id === accountId,
+    );
+    return accounts;
   }
 
   private hardDelete(index: number): void {

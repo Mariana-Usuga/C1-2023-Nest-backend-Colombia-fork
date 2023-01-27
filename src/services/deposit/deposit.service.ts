@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DepositModel } from 'src/models';
+import { DataRangeModel } from 'src/models/data-range.model';
+import { PaginationModel } from 'src/models/pagination.model';
 import { DepositEntity } from 'src/persistence/entities';
 import { DepositRepository } from 'src/persistence/repositories/deposit.repository';
 
@@ -41,8 +43,8 @@ export class DepositService {
    */
   getHistory(
     accountId: string,
-    //pagination: PaginationModel,
-    //dataRange?: DataRangeModel,
+    pagination: PaginationModel,
+    dataRange?: DataRangeModel,
   ): DepositEntity[] {
     throw new Error('This method is not implemented');
   }
